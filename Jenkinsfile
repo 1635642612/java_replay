@@ -15,10 +15,7 @@ stage('编译构建！！！！！！！！！') {
     }
 }
 stage('项目部署！！！！！！！！！') {
-    /* steps {
-        deploy adapters: [tomcat8(credentialsId: 'afc43e5e-4a4e-4de6-984fb1d5a254e434', path: '', url: 'http://192.168.66.102:8080')], contextPath: null,
-        war: 'target *//*.war'
-      } */
+
     }
   }
 }
