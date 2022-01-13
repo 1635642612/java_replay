@@ -1,4 +1,4 @@
-package main.java.com.base.jvm;
+package com.base.jvm;
 
 public class JvmTest {
 }

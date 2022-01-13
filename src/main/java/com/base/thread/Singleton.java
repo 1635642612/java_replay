@@ -1,4 +1,4 @@
-package main.java.com.base.thread;
+package com.base.thread;
 
 /*
   单例模式线程安全问题：双重校验锁实现对象单例
