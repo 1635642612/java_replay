@@ -15,7 +15,7 @@ stages {
             sh label: '', script: 'mvn clean package'
         }
     }
-    stage('项目部署！！！！！！！！！') {
+    stage('项目部署22！！！！！！！！！') {
 
 
      }
