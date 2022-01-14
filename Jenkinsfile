@@ -11,6 +11,14 @@ stages {
              }
          }
 
+         stage('start build !!!') {
+                echo '开始构建'
+         }
+
+         stage('project deploy !!!') {
+                echo '开始部署'
+          }
+
    }
 
 }
