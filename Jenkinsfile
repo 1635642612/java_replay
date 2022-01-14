@@ -2,7 +2,7 @@ pipeline {
     agent any
 stages {
 
-        stage('start fetch code!!!') {
+        stage('start fetch code master branches!!!') {
              steps {
                  checkout([$class: 'GitSCM', branches: [[name: '*/master']],
                  doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
