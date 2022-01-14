@@ -2,7 +2,7 @@ pipeline {
     agent any
 stages {
 
-        stage('拉取代码开始啦！！！！！！！！！') {
+        stage('start fetch code ！！！！！！！！！') {
              steps {
                  checkout([$class: 'GitSCM', branches: [[name: '*/master']],
                  doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
@@ -11,11 +11,11 @@ stages {
              }
          }
 
-         stage('编译构建2222asdf！！！！！！！！！') {
+         stage('start build 2222asdf！！！！！！！！！') {
 
          }
 
-         stage('项目部署22！！！！！！！！！') {
+         stage('project deploy 22！！！！！！！！！') {
 
           }
 
