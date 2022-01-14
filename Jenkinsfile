@@ -11,14 +11,6 @@ stages {
              }
          }
 
-         stage('start build !!!') {
-
-         }
-
-         stage('project deploy !!!') {
-
-          }
-
    }
 
 }
