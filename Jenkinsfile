@@ -10,7 +10,7 @@ stages {
             'git@github.com:1635642612/java_replay.git']]])
          }
     }
-    stage('编译构建！！！！！！！！！') {
+    stage('编译构建2222！！！！！！！！！') {
         steps {
             sh label: '', script: 'mvn clean package'
         }
