@@ -40,7 +40,7 @@ public class WechatController {
     static {
         //设置推送人或群聊的wxid
         //"19213818230@chatroom"-chang,,wxid_3kgy79o49rrv22 -yue wxid_pxbnrmij6hqz12 -me wxid_a3z12qhjhyhf22 -zx   wxid_0b3292k9q9aa22 -dzy
-        // 18408512944@chatroom -home   wxid_9ijc8t9v552922 -yt  sunnychen90 -sxc   17953557620@chatroom -cs    3466945781@chatroom  -wangm
+        // 18408512944@chatroom -home   wxid_9ijc8t9v552922 -yt  sunnychen90 -sxc   17953557620@chatroom -cs    3466945781@chatroom  -wangm    wxid_hb3t0i2x475n21 -baibai
         //List<String> sends = Arrays.asList("wxid_pxbnrmij6hqz12");
 
         pushs.put("wxid_pxbnrmij6hqz12",Arrays.asList("毒鸡汤","娄底天气","杭州天气","长沙天气","历史上的今天","土味情话","小段子","网易云","每日一言","舔狗日记","喝水提醒"));
@@ -48,7 +48,7 @@ public class WechatController {
         //pushs.put("wxid_9ijc8t9v552922",Arrays.asList("毒鸡汤","长沙天气","历史上的今天","ACG榜","每日一言"));
 
         pushs.put("19213818230@chatroom",Arrays.asList("长沙天气","毒鸡汤","土味情话","网易云","每日一言","舔狗日记"));//,"毒鸡汤","历史上的今天","土味情话","网易云","每日一言","舔狗日记"));
-        pushs.put("wxid_0b3292k9q9aa22",Arrays.asList("杭州天气","土味情话","网易云","喝水提醒"));
+      //  pushs.put("wxid_0b3292k9q9aa22",Arrays.asList("杭州天气","土味情话","网易云","喝水提醒"));
         pushs.put("wxid_a3z12qhjhyhf22",Arrays.asList("毒鸡汤","武汉天气","土味情话","小段子","网易云","每日一言","喝水提醒"));
         pushs.put("danjuan315",Arrays.asList("毒鸡汤","土味情话","小段子","网易云","每日一言","喝水提醒"));
         pushs.put("wxid_hb3t0i2x475n21",Arrays.asList("毒鸡汤","土味情话","小段子","网易云","每日一言","喝水提醒"));
@@ -418,7 +418,7 @@ public class WechatController {
                         sendMsg = title+res;
                     }
                 }break;
-                case "13:0": {
+                case "16:0": {
                     if(v.contains("土味情话")){
                             String title = "【土味情话】\n";
                             String res = sendGetHttp("https://api.lovelive.tools/api/SweetNothings");
