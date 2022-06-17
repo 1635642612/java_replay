@@ -38,6 +38,7 @@ public class WechatController {
     private static Map<String,List<String>> pushs = new HashMap();
 
     static {
+
         //设置推送人或群聊的wxid
         //"19213818230@chatroom"-chang,,wxid_3kgy79o49rrv22 -yue wxid_pxbnrmij6hqz12 -me wxid_a3z12qhjhyhf22 -zx   wxid_0b3292k9q9aa22 -dzy
         // 18408512944@chatroom -home   wxid_9ijc8t9v552922 -yt  sunnychen90 -sxc   17953557620@chatroom -cs    3466945781@chatroom  -wangm    wxid_hb3t0i2x475n21 -baibai
@@ -50,17 +51,16 @@ public class WechatController {
         pushs.put("19213818230@chatroom",Arrays.asList("长沙天气","毒鸡汤","土味情话","网易云","每日一言","舔狗日记"));//,"毒鸡汤","历史上的今天","土味情话","网易云","每日一言","舔狗日记"));
       //  pushs.put("wxid_0b3292k9q9aa22",Arrays.asList("杭州天气","土味情话","网易云","喝水提醒"));
         pushs.put("wxid_a3z12qhjhyhf22",Arrays.asList("毒鸡汤","武汉天气","土味情话","小段子","网易云","每日一言","喝水提醒"));
-        pushs.put("danjuan315",Arrays.asList("毒鸡汤","土味情话","小段子","网易云","每日一言","喝水提醒"));
-        pushs.put("wxid_hb3t0i2x475n21",Arrays.asList("毒鸡汤","土味情话","小段子","网易云","每日一言","喝水提醒"));
+        pushs.put("danjuan315",Arrays.asList("毒鸡汤","土味情话","小段子","网易云","每日一言","西安天气"));
+       // pushs.put("wxid_hb3t0i2x475n21",Arrays.asList("网易云","每日一言","土味情话"));
         pushs.put("18408512944@chatroom",Arrays.asList("娄底天气"));
         //pushs.put("wxid_3kgy79o49rrv22",Arrays.asList("毒鸡汤","温州天气","历史上的今天","土味情话","每日一言","舔狗日记","网易云"));
         //pushs.put("sunnychen90",Arrays.asList("毒鸡汤","长沙天气","历史上的今天","土味情话","小段子","每日一言","舔狗日记"));
-        pushs.put("diulove123",Arrays.asList("毒鸡汤","长沙天气","土味情话","小段子","每日一言","舔狗日记","网易云"));
+    //    pushs.put("diulove123",Arrays.asList("毒鸡汤","长沙天气","土味情话","小段子","每日一言","舔狗日记","网易云"));
 
         //pushs.put("3466945781@chatroom",Arrays.asList("毒鸡汤","天津天气","大连天气","土味情话","小段子","每日一言","舔狗日记","网易云"));
 
        // pushs.put("wxid_zg32ngpb6bfk22",Arrays.asList("毒鸡汤","长沙天气","土味情话","小段子","每日一言","舔狗日记","网易云"));
-
 
         //pushs.put("3466945781@chatroom",Arrays.asList("毒鸡汤","土味情话","小段子","每日一言","网易云"));
     }
@@ -69,16 +69,11 @@ public class WechatController {
     private RestTemplate restTemplate;
 
 
-    @RequestMapping("/hello")
-    public String hello(){
-        return "hello1122221";
-    }
-
     @PostMapping("/robot")
     public void robot(HttpServletRequest request, HttpServletResponse response,@RequestBody JSONObject jsonObject)
     {
 
-        System.out.println("---我是机器人收到的消息---"+jsonObject);
+        System.out.println("---收到的消息---"+jsonObject);
         //request.getHeader("Udid").toString()
 
         //获取发送方的微信id,和机器人id
@@ -314,7 +309,7 @@ public class WechatController {
         }
     }
 
-  //  @Scheduled(cron = "@*/5 * * * * ?") //每隔5秒推送
+    // @Scheduled(cron = "@*/5 * * * * ?") //每隔5秒推送
     public void test() {
         //格式化
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -322,11 +317,35 @@ public class WechatController {
         LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
         System.out.println("自定义时间:"+dateTime.format(formatter)+"======="+dateTime.getHour()+":"+dateTime.getMinute());
 
+        JSONObject body = new JSONObject();
+        body.put("success","true");
+        body.put("message","successful");
+        body.put("event","SendTextMsg");//默认发送文本消息
+        body.put("robot_wxid",ROBOTID);//发送机器人的id
+        String title = "【喝水提醒】\n";
+        String res = "主人~ 到喝水水的时间啦！^_^\n\n";
+
+        String word = sendPostHttp(null,"https://api.oick.cn/dutang/api.php");;
+        String sendMsg = title+res+word;
+        if(!StringUtils.isEmpty(sendMsg)){
+            //返回的消息
+            body.put("msg", sendMsg);
+            //发送人的wxid
+            body.put("to_wxid","wxid_pxbnrmij6hqz12");
+
+            String sendRes = sendPostHttp(body,URL);
+            JSONObject parse = JSONObject.parseObject(sendRes);
+            if (parse.get("code").toString().equals("-1")) {
+                String resend = sendPostHttp(body,URL);
+            }
+        }
+        System.out.println("111111111111111111111111");
+
     }
 
     //定时任务推送
     @Scheduled(cron = "00 00,30,45 07,08,09,11,12,13,14,15,16,17,19,22,23,00 * * ?") // tips: 秒 分 时  时分的第一个0会去掉
-    public  void tips() {
+    public void tips() {
         JSONObject body = new JSONObject();
         body.put("success","true");
         body.put("message","successful");
@@ -418,7 +437,7 @@ public class WechatController {
                         sendMsg = title+res;
                     }
                 }break;
-                case "16:0": {
+                case "13:0": {
                     if(v.contains("土味情话")){
                             String title = "【土味情话】\n";
                             String res = sendGetHttp("https://api.lovelive.tools/api/SweetNothings");
@@ -507,58 +526,60 @@ public class WechatController {
 
     //朝九晚五工作时间内每半小时
     //@Scheduled(cron = "@*/10 * * * * ?")
-    //@Scheduled(cron = "59 59 9-17 * * ?")//0 0/30 9-17 * * ?
+    @Scheduled(cron = "0 0/30 9-20 * * ?")//0 0/30 9-17 * * ?  59 59 9-17 * * ?
     //https://www.free-api.com/doc/302
    //  @Scheduled(cron = "00 00 23,00 * * ?") // tips: 秒 分 时  时分的第一个0会去掉
-    public void music() {
+    public void tipWater() {
+
         JSONObject body = new JSONObject();
         body.put("success","true");
         body.put("message","successful");
         body.put("event","SendTextMsg");//默认发送文本消息
         body.put("robot_wxid",ROBOTID);//发送机器人的id
+        String title = "【喝水提醒】\n";
+        String res = "主人~ 到喝水水的时间啦！^_^\n\n";
 
-        pushs.forEach((k, v)->{
-            //System.out.println( (int)(min+Math.random()*(max-min+1)) );
-
-            String url = "";
-            if(v.contains("网易云")){
-                List<String> sortList = Arrays.asList("热歌榜","新歌榜","飙升榜","抖音榜","电音榜");
-                String top = sortList.get((int)(Math.random()*(sortList.size())));
-                body.put("event","SendTextMsg");
-                body.put("msg", "【网抑云"+top+"推荐】");
-                url = "https://api.uomg.com/api/rand.music?format=json&sort="+top;
+        String word = sendPostHttp(null,"https://api.oick.cn/dutang/api.php");
+        String sendMsg = title+res+word.replace("null","");
+        if(!StringUtils.isEmpty(sendMsg)){
+            //返回的消息
+            body.put("msg", sendMsg);
+            //发送人的wxid
+            body.put("to_wxid","danjuan315");
+            String sendRes = sendPostHttp(body,URL);
+            JSONObject parse = JSONObject.parseObject(sendRes);
+            if (parse.get("code").toString().equals("-1")) {
+                String resend = sendPostHttp(body,URL);
             }
-            if(v.contains("ACG榜")){
-                body.put("event","SendTextMsg");
-                body.put("msg", "【网易云ACG榜推荐】");
-                url = "https://api.uomg.com/api/rand.music?mid=71385702&format=json";
-            }
-            JSONObject res = JSONObject.parseObject(sendPostHttp(null,url));
-            if(res==null)return;
-            JSONObject data = (JSONObject) res.get("data");
-            if(data==null)return;
-            if(StringUtils.isEmpty(data.get("name"))){
-                return;
-            }
-            String songName = data.get("name").toString();
-            body.put("to_wxid",k);
-            sendPostHttp(body,URL);
-            body.put("event","SendMusicMsg");
-            JSONObject music = new JSONObject();
-            music.put("name",songName);
-            music.put("type","0");
-            body.put("msg",music);
-            sendPostHttp(body,URL);
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        });
-
+        }
     }
+
+
+    @Scheduled(cron = "0 0 9-18 * * ?")
+    public void tipWalk() {
+        JSONObject body = new JSONObject();
+        body.put("success","true");
+        body.put("message","successful");
+        body.put("event","SendTextMsg");//默认发送文本消息
+        body.put("robot_wxid",ROBOTID);//发送机器人的id
+        String title = "【运动提醒】\n";
+        String res = "主人~ 该走动走动啦！^_^\n\n";
+
+        String word = sendPostHttp(null,"http://api.guaqb.cn/v1/onesaid/");
+        String sendMsg = title+res+word;
+        if(!StringUtils.isEmpty(sendMsg)){
+            //返回的消息
+            body.put("msg", sendMsg);
+            //发送人的wxid
+            body.put("to_wxid","danjuan315");
+            String sendRes = sendPostHttp(body,URL);
+            JSONObject parse = JSONObject.parseObject(sendRes);
+            if (parse.get("code").toString().equals("-1")) {
+                String resend = sendPostHttp(body,URL);
+            }
+        }
+    }
+
 
     //发送http请求
     public String sendPostHttp(JSONObject jsonObject,String url ){
@@ -574,31 +595,30 @@ public class WechatController {
         ResponseEntity<String> stringResponseEntity = null;
         try {
             System.out.println("请求的url为=========================="+url);
-            if(StringUtils.isEmpty(url)){
-                return "";
-            }
             // 设置restemplate编码为utf-8
             restTemplate.getMessageConverters().set(1,new StringHttpMessageConverter(StandardCharsets.UTF_8));
             stringResponseEntity = restTemplate.postForEntity(url, formEntity, String.class);
             System.out.println("ResponseEntity----"+stringResponseEntity);
+            //5、获取http状态码
+            int statusCodeValue = stringResponseEntity.getStatusCodeValue();
+            System.out.println("httpCode-----"+statusCodeValue);
+
+            //6、获取返回体
+            String body = stringResponseEntity.getBody();
+            System.out.println("body-----"+body);
+
+            //7、映射实体类
+            //  Wrapper wrapper = JSONObject.parseObject(body, Wrapper.class);
+            // String data = wrapper.getData();
+            // System.out.println("data-----"+data);
+
+            return body;
         } catch (RestClientException e) {
             e.printStackTrace();
+            return null;
         }
 
-        //5、获取http状态码
-        int statusCodeValue = stringResponseEntity.getStatusCodeValue();
-        System.out.println("httpCode-----"+statusCodeValue);
 
-        //6、获取返回体
-        String body = stringResponseEntity.getBody();
-        System.out.println("body-----"+body);
-
-        //7、映射实体类
-       //  Wrapper wrapper = JSONObject.parseObject(body, Wrapper.class);
-       // String data = wrapper.getData();
-       // System.out.println("data-----"+data);
-
-        return body;
     }
 
     public String sendGetHttp(String url ){
