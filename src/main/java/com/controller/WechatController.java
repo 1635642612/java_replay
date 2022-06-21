@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class WechatController {
@@ -54,6 +51,9 @@ public class WechatController {
         pushs.put("danjuan315",Arrays.asList("毒鸡汤","土味情话","小段子","网易云","每日一言","西安天气"));
        // pushs.put("wxid_hb3t0i2x475n21",Arrays.asList("网易云","每日一言","土味情话"));
         pushs.put("18408512944@chatroom",Arrays.asList("娄底天气"));
+
+        pushs.put("lm7712251008",Arrays.asList("毒鸡汤","土味情话","每日一言","舔狗日记"));
+
         //pushs.put("wxid_3kgy79o49rrv22",Arrays.asList("毒鸡汤","温州天气","历史上的今天","土味情话","每日一言","舔狗日记","网易云"));
         //pushs.put("sunnychen90",Arrays.asList("毒鸡汤","长沙天气","历史上的今天","土味情话","小段子","每日一言","舔狗日记"));
     //    pushs.put("diulove123",Arrays.asList("毒鸡汤","长沙天气","土味情话","小段子","每日一言","舔狗日记","网易云"));
@@ -537,10 +537,11 @@ public class WechatController {
         body.put("event","SendTextMsg");//默认发送文本消息
         body.put("robot_wxid",ROBOTID);//发送机器人的id
         String title = "【喝水提醒】\n";
-        String res = "主人~ 到喝水水的时间啦！^_^\n\n";
+        String res = "小主~ 到喝水水的时间啦！^_^\n\n";
 
         String word = sendPostHttp(null,"https://api.oick.cn/dutang/api.php");
         String sendMsg = title+res+word.replace("null","");
+
         if(!StringUtils.isEmpty(sendMsg)){
             //返回的消息
             body.put("msg", sendMsg);
@@ -551,6 +552,8 @@ public class WechatController {
             if (parse.get("code").toString().equals("-1")) {
                 String resend = sendPostHttp(body,URL);
             }
+
+
         }
     }
 
@@ -572,6 +575,31 @@ public class WechatController {
             body.put("msg", sendMsg);
             //发送人的wxid
             body.put("to_wxid","danjuan315");
+            String sendRes = sendPostHttp(body,URL);
+            JSONObject parse = JSONObject.parseObject(sendRes);
+            if (parse.get("code").toString().equals("-1")) {
+                String resend = sendPostHttp(body,URL);
+            }
+        }
+    }
+
+    @Scheduled(cron = "0 0 9-18 * * ?")
+    public void tipWater2() {
+        JSONObject body = new JSONObject();
+        body.put("success","true");
+        body.put("message","successful");
+        body.put("event","SendTextMsg");//默认发送文本消息
+        body.put("robot_wxid",ROBOTID);//发送机器人的id
+        String title = "【喝水提醒】\n";
+        String res = "小主~ 到喝水水的时间啦！^_^\n\n";
+
+        String word = sendPostHttp(null,"https://api.oick.cn/dutang/api.php");
+        String sendMsg = title+res+word;
+        if(!StringUtils.isEmpty(sendMsg)){
+            //返回的消息
+            body.put("msg", sendMsg);
+            //发送人的wxid
+            body.put("to_wxid","lm7712251008");
             String sendRes = sendPostHttp(body,URL);
             JSONObject parse = JSONObject.parseObject(sendRes);
             if (parse.get("code").toString().equals("-1")) {
