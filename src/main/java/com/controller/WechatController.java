@@ -566,7 +566,7 @@ public class WechatController {
         body.put("event","SendTextMsg");//默认发送文本消息
         body.put("robot_wxid",ROBOTID);//发送机器人的id
         String title = "【运动提醒】\n";
-        String res = "主人~ 该走动走动啦！^_^\n\n";
+        String res = "小主~ 该走动走动啦！^_^\n\n";
 
         String word = sendPostHttp(null,"http://api.guaqb.cn/v1/onesaid/");
         String sendMsg = title+res+word;
