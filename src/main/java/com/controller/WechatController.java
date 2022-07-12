@@ -34,6 +34,7 @@ public class WechatController {
 
     private static Map<String,List<String>> pushs = new HashMap();
 
+
     static {
 
         //设置推送人或群聊的wxid
@@ -56,7 +57,7 @@ public class WechatController {
 
         //pushs.put("wxid_3kgy79o49rrv22",Arrays.asList("毒鸡汤","温州天气","历史上的今天","土味情话","每日一言","舔狗日记","网易云"));
         //pushs.put("sunnychen90",Arrays.asList("毒鸡汤","长沙天气","历史上的今天","土味情话","小段子","每日一言","舔狗日记"));
-    //    pushs.put("diulove123",Arrays.asList("毒鸡汤","长沙天气","土味情话","小段子","每日一言","舔狗日记","网易云"));
+        //pushs.put("diulove123",Arrays.asList("毒鸡汤","长沙天气","土味情话","小段子","每日一言","舔狗日记","网易云"));
 
         //pushs.put("3466945781@chatroom",Arrays.asList("毒鸡汤","天津天气","大连天气","土味情话","小段子","每日一言","舔狗日记","网易云"));
 
@@ -437,13 +438,7 @@ public class WechatController {
                         sendMsg = title+res;
                     }
                 }break;
-                case "13:0": {
-                    if(v.contains("土味情话")){
-                            String title = "【土味情话】\n";
-                            String res = sendGetHttp("https://api.lovelive.tools/api/SweetNothings");
-                            sendMsg = title+"''"+res+"''";
-                    }
-                }break;
+
                 case "14:0": {
                     if(v.contains("每日一言")){
                                 String title = "【每日一言】\n";
@@ -486,6 +481,13 @@ public class WechatController {
                         String title = "【喝水提醒】\n";
                         String res = "15:30 减负又减肥~";
                         sendMsg = title+res;
+                    }
+                }break;
+                case "16:0": {
+                    if(v.contains("土味情话")){
+                        String title = "【土味情话】\n";
+                        String res = sendGetHttp("https://api.lovelive.tools/api/SweetNothings");
+                        sendMsg = title+"''"+res+"''";
                     }
                 }break;
                 case "17:30": {
@@ -582,6 +584,7 @@ public class WechatController {
             }
         }
     }
+
 
     @Scheduled(cron = "0 0 9-18 * * ?")
     public void tipWater2() {
